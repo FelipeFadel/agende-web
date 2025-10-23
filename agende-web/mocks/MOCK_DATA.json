@@ -1,0 +1,69 @@
+[
+  {
+    "date": "2025-10-19",
+    "appointments": [
+      {
+        "id": 1,
+        "client": "Maria Silva",
+        "service": "Corte de cabelo feminino",
+        "time": "09:00"
+      },
+      {
+        "id": 2,
+        "client": "Ana Souza",
+        "service": "Manicure e Pedicure",
+        "time": "10:30"
+      },
+      {
+        "id": 3,
+        "client": "Carla Santos",
+        "service": "Hidratação capilar",
+        "time": "14:00"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-20",
+    "appointments": [
+      {
+        "id": 4,
+        "client": "Fernanda Rocha",
+        "service": "Escova progressiva",
+        "time": "08:30"
+      },
+      {
+        "id": 5,
+        "client": "Juliana Lima",
+        "service": "Sobrancelha + Henna",
+        "time": "11:00"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-21",
+    "appointments": [
+      {
+        "id": 6,
+        "client": "Patrícia Gomes",
+        "service": "Coloração (Luzes)",
+        "time": "09:15"
+      },
+      {
+        "id": 7,
+        "client": "Bianca Oliveira",
+        "service": "Corte + Escova",
+        "time": "13:00"
+      },
+      {
+        "id": 8,
+        "client": "Renata Ferreira",
+        "service": "Manicure",
+        "time": "15:30"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-22",
+    "appointments": []
+  }
+]
