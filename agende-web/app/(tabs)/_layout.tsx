@@ -10,9 +10,18 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: "#E65E12", // Ícone ativo
+        tabBarInactiveTintColor: "rgba(0,0,0,0.3)", // Ícone inativo cinza e esmaecido
+        tabBarStyle: {
+          backgroundColor: "#ecdeccff",
+          paddingTop: 5,
+        },
+        tabBarLabelStyle: {
+          fontSize: 16,
+        },
       }}
     >
-      {/* Aba dia */}
+      {/* Aba Dia */}
       <Tabs.Screen
         name="index"
         options={{
@@ -28,7 +37,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Aba mês */}
+      {/* Aba Mês */}
       <Tabs.Screen
         name="two"
         options={{
