@@ -31,9 +31,8 @@
 ## Tecnologias
 
 - React Native / Expo  
-- TypeScript  
-- React Navigation  
-- Zustand (para gerenciamento de estado)  
+- React Native Elements  
+- Zustand  
 
 ## Como rodar
 
