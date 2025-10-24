@@ -12,13 +12,21 @@
 
 ## Screenshots
 
-![Tela Inicial](https://github.com/user-attachments/assets/8e6f2881-a000-48d2-bb57-bed35dd45bcc)  
-![Calendário](https://github.com/user-attachments/assets/2b72ee23-615b-433d-ab60-2e2128eeaed2)  
-![Detalhes do Compromisso](https://github.com/user-attachments/assets/a46b2113-bee0-4269-93a2-4754103c23ca)  
-![Adicionar Compromisso](https://github.com/user-attachments/assets/ec1c940b-04e3-45db-9374-c55c9fead1b8)  
-![Lista de Compromissos](https://github.com/user-attachments/assets/d5c43281-b3dd-41e1-a941-5fb09264a439)  
-![Editar Compromisso](https://github.com/user-attachments/assets/10ee7123-6aa1-40a4-81f8-a28f5245efa3)  
-![Navegação e Detalhes](https://github.com/user-attachments/assets/2f6305d5-9b7d-4ede-84d2-7cc1d5f730e0)  
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8e6f2881-a000-48d2-bb57-bed35dd45bcc" width="250" />
+  <img src="https://github.com/user-attachments/assets/2b72ee23-615b-433d-ab60-2e2128eeaed2" width="250" />
+  <img src="https://github.com/user-attachments/assets/a46b2113-bee0-4269-93a2-4754103c23ca" width="250" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ec1c940b-04e3-45db-9374-c55c9fead1b8" width="250" />
+  <img src="https://github.com/user-attachments/assets/d5c43281-b3dd-41e1-a941-5fb09264a439" width="250" />
+  <img src="https://github.com/user-attachments/assets/10ee7123-6aa1-40a4-81f8-a28f5245efa3" width="250" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2f6305d5-9b7d-4ede-84d2-7cc1d5f730e0" width="250" />
+</p>
 
 ## Tecnologias
 
