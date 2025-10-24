@@ -44,9 +44,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: "#f2e5d5", // fundo da aplicação
+        },
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="(tabs)" />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "@rneui/base";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
   SafeAreaView,
@@ -13,47 +13,41 @@ import {
   View,
 } from "react-native";
 
-// Usuários padrão
-const DEFAULT_USERS = [
-  { email: "teste", password: "senha" },
-  { email: "Teste", password: "Teste" },
-  { email: "teste", password: "teste" },
-  { email: "A", password: "A" },
-  { email: "a", password: "a" },
-  { email: "local", password: "senha" },
-  { email: "salão da juci", password: "senha" },
-];
-
-export default function LoginScreen() {
+export default function RegisterScreen() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [users, setUsers] = useState(DEFAULT_USERS);
 
-  // Carrega usuários salvos no AsyncStorage
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const storedUsers = await AsyncStorage.getItem("@users");
-        if (storedUsers) {
-          setUsers([...DEFAULT_USERS, ...JSON.parse(storedUsers)]);
-        }
-      } catch (error) {
-        console.log("Erro ao carregar usuários:", error);
+  const handleRegister = async () => {
+    if (!name || !email || !password) {
+      Alert.alert("Atenção", "Preencha todos os campos!");
+      return;
+    }
+
+    try {
+      // Pega usuários salvos
+      const storedUsers = await AsyncStorage.getItem("@users");
+      const users = storedUsers ? JSON.parse(storedUsers) : [];
+
+      // Verifica se já existe o e-mail
+      if (
+        users.some((u: any) => u.email.toLowerCase() === email.toLowerCase())
+      ) {
+        Alert.alert("Erro", "Este e-mail já está registrado!");
+        return;
       }
-    };
-    loadUsers();
-  }, []);
 
-  const handleLogin = () => {
-    const user = users.find(
-      (u) =>
-        u.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
+      // Adiciona novo usuário
+      const newUser = { name, email, password };
+      users.push(newUser);
 
-    if (user) {
-      router.replace("/(tabs)");
-    } else {
-      Alert.alert("Erro", "Usuário ou senha inválidos!");
+      await AsyncStorage.setItem("@users", JSON.stringify(users));
+
+      Alert.alert("Sucesso", "Conta criada com sucesso!");
+      router.replace("/"); // volta para login
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Erro", "Não foi possível salvar os dados");
     }
   };
 
@@ -70,17 +64,24 @@ export default function LoginScreen() {
 
         <View style={styles.container}>
           <Text style={[styles.title, { fontFamily: "Minork" }]}>
-            Bem-Vindo!
+            Registrar
           </Text>
-
           <Text style={[styles.subtitle, { fontFamily: "Wichita" }]}>
-            Faça seu login para ver os compromissos de hoje
+            Crie sua conta para gerenciar os compromissos
           </Text>
 
           <View style={styles.form}>
             <TextInput
               style={[styles.input, { fontFamily: "Wichita" }]}
-              placeholder="Seu e-mail"
+              placeholder="Nome do estabelecimento"
+              placeholderTextColor="#666"
+              value={name}
+              onChangeText={setName}
+            />
+
+            <TextInput
+              style={[styles.input, { fontFamily: "Wichita" }]}
+              placeholder="E-mail"
               placeholderTextColor="#666"
               value={email}
               onChangeText={setEmail}
@@ -88,35 +89,24 @@ export default function LoginScreen() {
 
             <TextInput
               style={[styles.input, { fontFamily: "Wichita" }]}
-              placeholder="Sua senha"
+              placeholder="Senha"
               placeholderTextColor="#666"
               secureTextEntry
               value={password}
               onChangeText={setPassword}
             />
 
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
               <Text style={[styles.buttonText, { fontFamily: "Wichita" }]}>
-                Entrar
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.buttonSchedule}
-              onPress={() => router.push("/agendarCliente")}
-            >
-              <Text style={[styles.buttonText, { fontFamily: "Wichita" }]}>
-                Agendar
+                Registrar
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.linkContainer}
-              onPress={() => router.push("/register")}
+              onPress={() => router.push("/")}
             >
-              <Text style={styles.linkText}>
-                Não tem conta? Cadastre-se aqui
-              </Text>
+              <Text style={styles.linkText}>Já tem uma conta? Faça login</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -125,7 +115,6 @@ export default function LoginScreen() {
   );
 }
 
-// --- Styles iguais ao seu código anterior
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: "#f2e5d5" },
   scroll: { flexGrow: 1, alignItems: "center" },
@@ -188,20 +177,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: { color: "#ffffffee", fontSize: 18, fontWeight: "600" },
-  buttonSchedule: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#09402C",
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 4,
-    elevation: 3,
-    marginTop: 15,
-  },
-  linkContainer: { marginTop: 50, alignItems: "center" },
+  linkContainer: { marginTop: 15, alignItems: "center" },
   linkText: { color: "#09402C", textDecorationLine: "underline", fontSize: 16 },
 });

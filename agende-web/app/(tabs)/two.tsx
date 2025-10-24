@@ -1,75 +1,83 @@
+import { AddAppointmentModal } from "@/components/AddAppointmentModal";
+import { TextMinork, TextWichita } from "@/components/TextCustom";
+import { useAppointmentStore } from "@/store/useAppointmentStore"; // ✅ importa o Zustand store
 import { useState } from "react";
-import {
-  Modal,
-  View as RNView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
 
 export default function TabTwoScreen() {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const today = new Date().toISOString().split("T")[0];
+
+  const [selectedDay, setSelectedDay] = useState<string | null>(today);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Data de hoje formatada como YYYY-MM-DD
-  const today = new Date().toISOString().split("T")[0];
+  const { data, addAppointment } = useAppointmentStore();
+
+  const markedDates = data.reduce((acc, day) => {
+    acc[day.date] = {
+      marked: true,
+      dotColor: "#E65E12",
+    };
+    return acc;
+  }, {} as Record<string, any>);
+
+  markedDates[today] = {
+    ...(markedDates[today] || {}),
+    selected: true,
+    selectedColor: "#09402C",
+  };
+  if (selectedDay) {
+    markedDates[selectedDay] = {
+      ...(markedDates[selectedDay] || {}),
+      selected: true,
+      selectedColor: "#E65E12",
+    };
+  }
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}>MEU</Text>
-        <Text style={styles.subtitle}>mês</Text>
+        <TextMinork style={styles.title}>Compromissos</TextMinork>
+        <TextWichita style={styles.subtitle}>do mês</TextWichita>
 
         <Calendar
-          markedDates={{
-            [today]: { selected: true, selectedColor: "#4CAF50" }, // dia atual
-            ...(selectedDay && {
-              [selectedDay]: { selected: true, selectedColor: "#007BFF" },
-            }),
-          }}
+          current={today}
           onDayPress={(day) => {
             setSelectedDay(day.dateString);
             setModalVisible(true);
           }}
+          markedDates={markedDates}
           theme={{
-            todayTextColor: "#4CAF50",
-            arrowColor: "#007BFF",
-            monthTextColor: "#000",
-            textDayFontSize: 16,
-            textMonthFontSize: 18,
-            textDayHeaderFontSize: 14,
+            todayTextColor: "#09402C",
+            arrowColor: "#E65E12",
+            monthTextColor: "#09402C",
+            textDayFontSize: 18,
+            textMonthFontSize: 22,
+            textDayHeaderFontSize: 16,
           }}
+          style={styles.calendar}
+          hideExtraDays={false}
+          firstDay={1}
         />
 
         <View style={styles.separator} />
       </ScrollView>
 
-      {/* Modal do dia selecionado */}
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <RNView style={styles.modalBackground}>
-          <RNView style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Dia Selecionado</Text>
-            <Text style={styles.modalText}>
-              {selectedDay ? selectedDay.split("-").reverse().join("/") : ""}
-            </Text>
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
-          </RNView>
-        </RNView>
-      </Modal>
+      {/* Modal para adicionar novo compromisso */}
+      {selectedDay && (
+        <AddAppointmentModal
+          visible={modalVisible}
+          selectedDay={selectedDay}
+          onClose={() => setModalVisible(false)}
+          onSave={(newAppointment) => {
+            addAppointment(selectedDay, {
+              id: Date.now().toString(),
+              ...newAppointment,
+            });
+            setModalVisible(false);
+          }}
+        />
+      )}
     </View>
   );
 }
@@ -77,62 +85,41 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f2e5d5",
+    alignItems: "center",
+    paddingTop: 60,
   },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 16,
+    paddingVertical: 20,
   },
   title: {
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 46,
+    color: "#09402C",
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontSize: 22,
+    color: "#E65E12",
+    marginBottom: 20,
   },
   separator: {
-    marginVertical: 30,
+    width: "80%",
     height: 1,
-    width: "80%",
+    backgroundColor: "#09402C",
+    marginVertical: 20,
+    borderRadius: 2,
   },
-  modalBackground: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: "80%",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  modalText: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  closeButton: {
-    marginTop: 15,
-    backgroundColor: "#007BFF",
+  calendar: {
+    width: "95%",
+    borderRadius: 16,
+    backgroundColor: "#ffffffee",
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  closeButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 5,
+    elevation: 3,
   },
 });
