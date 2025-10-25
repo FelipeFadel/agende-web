@@ -6,6 +6,10 @@
 
 `https://www.canva.com/design/DAG21SDjv78/jxWwVLeLjGUmmufDLdhLdw/view?utm_content=DAG21SDjv78&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h078f8e000f`
 
+## Apresentação do protótipo via video (caso o apk não funcione)
+
+`https://www.youtube.com/shorts/GRTKZfd9sIQ`
+
 ## Funcionalidades
 
 - **Agenda diária e mensal:** visualize compromissos de forma clara no calendário.  
